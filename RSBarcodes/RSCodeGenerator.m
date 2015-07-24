@@ -84,8 +84,8 @@ NSString *const DIGITS_STRING = @"0123456789";
     for (int i = 0; i < code.length; i++) {
         NSString *character = [code substringWithRange:NSMakeRange(i, 1)];
         if ([character isEqualToString:@"1"]) {
-            CGContextMoveToPoint(context, i * self.codeDrawScale + (2 * self.codeDrawScale + self.codeDrawScale), 0);
-            CGContextAddLineToPoint(context, i * self.codeDrawScale + (2 * self.codeDrawScale + self.codeDrawScale), size.height * self.codeDrawScale);
+            CGContextMoveToPoint(context, i * self.codeDrawScale + self.codeDrawScale / 2.0f, 0);
+            CGContextAddLineToPoint(context, i * self.codeDrawScale + self.codeDrawScale / 2.0f, size.height * self.codeDrawScale);
         }
     }
     CGContextDrawPath(context, kCGPathFillStroke);

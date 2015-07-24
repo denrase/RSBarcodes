@@ -71,7 +71,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     RSUnifiedCodeGenerator *generator = [RSUnifiedCodeGenerator codeGen];
-    generator.codeDrawScale = CodeDrawScale8x;
+    generator.codeDrawScale = CodeDrawScale1x;
     
     self.codeView.code = [CodeGen genCodeWithContents:@"9990200298142071051" machineReadableCodeObjectType:AVMetadataObjectTypeCode93Code];
     
