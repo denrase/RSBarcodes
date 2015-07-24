@@ -50,18 +50,6 @@ NSString *const DIGITS_STRING = @"0123456789";
         return nil;
     }
     
-    // Values taken from CIImage generated AVMetadataObjectTypePDF417Code type
-    // image
-    // Top spacing          = 1.5
-    // Bottom spacing       = 2
-    // Left & right spacing = 2
-    // Height               = 28
-    CGSize size = CGSizeMake(code.length + 4, 28);
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetShouldAntialias(context, false);
-    
     if (!self.fillColor) {
         self.fillColor = [UIColor whiteColor];
     }
@@ -70,17 +58,35 @@ NSString *const DIGITS_STRING = @"0123456789";
         self.strokeColor = [UIColor blackColor];
     }
     
+    if (self.codeDrawScale == 0) {
+        self.codeDrawScale = CodeDrawScale1x;
+    }
+
+    // Spacing       = 2
+    // Height        = 28
+    
+    NSUInteger spacing = 0;
+    NSUInteger height = 28;
+    
+    CGSize size = CGSizeMake(code.length * self.codeDrawScale + spacing * self.codeDrawScale * 2,
+                             height * self.codeDrawScale);
+    
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetShouldAntialias(context, false);
+    
     [self.fillColor setFill];
     [self.strokeColor setStroke];
     
     CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
-    CGContextSetLineWidth(context, 1);
+    CGContextSetLineWidth(context, self.codeDrawScale);
     
     for (int i = 0; i < code.length; i++) {
         NSString *character = [code substringWithRange:NSMakeRange(i, 1)];
         if ([character isEqualToString:@"1"]) {
-            CGContextMoveToPoint(context, i + (2 + 1), 1.5);
-            CGContextAddLineToPoint(context, i + (2 + 1), size.height - 2);
+            CGContextMoveToPoint(context, i * self.codeDrawScale + (spacing * self.codeDrawScale + spacing * self.codeDrawScale / 2), spacing * self.codeDrawScale);
+            CGContextAddLineToPoint(context, i * self.codeDrawScale + (spacing * self.codeDrawScale + spacing * self.codeDrawScale / 2), size.height * self.codeDrawScale - spacing * self.codeDrawScale);
         }
     }
     CGContextDrawPath(context, kCGPathFillStroke);
