@@ -10,6 +10,13 @@
 
 #import <AVFoundation/AVFoundation.h>
 
+typedef NS_ENUM(NSUInteger, CodeDrawScale) {
+    CodeDrawScale1x = 1,
+    CodeDrawScale2x = 2,
+    CodeDrawScale4x = 4,
+    CodeDrawScale8x = 8
+};
+
 /**
  *  Code generators are required to provide these two functions.
  */
@@ -29,6 +36,9 @@
 /** The stroke color of the generated barcode. */
 @property (nonatomic, strong) UIColor *strokeColor;
 
+/** The scale at which the image is drawn. Default is 1x. */
+@property (nonatomic, assign) CodeDrawScale codeDrawScale;
+
 @end
 
 /**
@@ -46,11 +56,15 @@
 
 extern NSString *const DIGITS_STRING;
 
+
+
 /**
  *  Abstract code generator, provides default functions for validations and
  * generations.
  */
 @interface RSAbstractCodeGenerator : NSObject <RSCodeGenerator>
+
+@property (nonatomic, assign) CodeDrawScale codeDrawScale;
 
 /**
  *  Check whether the given contents are valid.
